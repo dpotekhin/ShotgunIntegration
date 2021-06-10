@@ -11,11 +11,13 @@ if "%shotName%"=="" (
 )
 
 call settings.bat
+set copyFlags=/j /DCOPY:T /XD work .thumbnails /E /R:2 /W:5 /MT:16
 
 echo ^:^:^:^:^: %shotName% ^:^:^:^:^:
 
 :: COPY FOLDER
-Xcopy /e /i /d /y "%animRemotePath%\%shotName%" "%localPath%\%shotName%"
+REM Xcopy /e /i /d /y "%animRemotePath%\%shotName%" "%localPath%\%shotName%"
+robocopy "%animRemotePath%\%shotName%" "%localPath%\%shotName%" %copyFlags%
 
 :: CREATE FOLDERS
 md "%localPath%\%shotName%\_anim2d"
@@ -31,13 +33,15 @@ echo LIST: %assetPaths%
 if not "assetPaths"=="" (
 	for %%a in ("%assetPaths:;=" "%") do (
 		
+		:: CREATE SHORTCUTS
+		CALL lib.bat createShortcut "%localPath%\%shotName%\_assets\%%~a_X.lnk" "%localAssetsPath%\%%~a"
+		CALL lib.bat createShortcut "%localPath%\%shotName%\_assets\%%~a_NET.lnk" "%localNetworkAssetsPath%\%%~a"
+		
 		:: COPY USED ASSETS
 		::echo ASSET: "%assetsRemotePath%\%%~a"
 		::echo Local: "%localAssetsPath%\%%~a"
-		Xcopy /e /i /d /y "%assetsRemotePath%\%%~a" "%localAssetsPath%\%%~a"
-		
-		:: CREATE SHORTCUTS
-		CALL lib.bat createShortcut "%localPath%\%shotName%\_assets\%%~a.lnk" "%localAssetsPath%\%%~a"
+		REM Xcopy /e /i /d /y "%assetsRemotePath%\%%~a" "%localAssetsPath%\%%~a"
+		robocopy "%assetsRemotePath%\%%~a" "%localAssetsPath%\%%~a" %copyFlags%
 		
 	)
 )
