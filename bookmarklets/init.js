@@ -6,11 +6,11 @@ var sc = document.createElement('script');
 sc.onload = function () {
     console.log('ShotgunParser is ready');
 };
-sc.src = "https://raw.githack.com/dpotekhin/ToonBoomHarmonyScripts/dev/PS_ShotgunIntergration/ShotgunPageParser.js";
+sc.src = "https://raw.githack.com/dpotekhin/ShotgunIntegration/main/ShotgunPageParser.js";
 document.body.appendChild(sc);
 // <<< Source <<<
 
 
 // >>> Bookmarklet >>> 
-javascript:(function(){ var sc=document.createElement("script");sc.onload=function(){console.log("ShotgunParser is ready")},sc.src="https://raw.githack.com/dpotekhin/ToonBoomHarmonyScripts/dev/PS_ShotgunIntergration/ShotgunPageParser.js",document.body.appendChild(sc); })()
+javascript:(function(){ var sc=document.createElement("script");sc.onload=function(){console.log("ShotgunParser is ready")},sc.src="https://raw.githack.com/dpotekhin/ShotgunIntegration/main/ShotgunPageParser.js",document.body.appendChild(sc); })()
 // <<< Bookmarklet <<< 
