@@ -1,5 +1,5 @@
 // Fix github link here: https://raw.githack.com/
-// https://raw.githubusercontent.com/dpotekhin/ToonBoomHarmonyScripts/dev/PS_ShotgunIntergration/ShotgunPageParser.js
+// https://raw.githubusercontent.com/dpotekhin/ShotgunIntegration/main/ShotgunPageParser.js
 
 // >>> Source >>> 
 var sc = document.createElement('script');

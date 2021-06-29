@@ -22,13 +22,13 @@ var sgp = window.sgp = {
 
 	// Page Parsing
 	parse: function( _onParsingComplete, useExistingData, shotName ){
+		
 		console.log('parse', useExistingData );
-		if( useExistingData ){
+
+		if( useExistingData && tasksData && Object.keys( tasksData ).length ){
 			console.log('useExistingData: ', tasksData, Object.keys( tasksData ).length );
-			if( tasksData && Object.keys( tasksData ).length ){
-				if( _onParsingComplete ) _onParsingComplete();
-				return;
-			}
+			if( _onParsingComplete ) _onParsingComplete();
+			return;
 		}
 
 		taskItems = document.querySelectorAll('.grouped_list_item');
@@ -196,7 +196,7 @@ var sgp = window.sgp = {
 			Object.keys(tasksData).forEach(function(shotName, i){
 				var ad = tasksData[shotName];
 				if( i!== 0 ) output += ' && ';
-				output += 'shot-from-remote.bat '+shotName;
+				output += 'shot-from-remote.bat '+ad.name;
 				
 				// assets
 				var assetsParams=[];
