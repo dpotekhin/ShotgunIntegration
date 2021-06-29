@@ -42,7 +42,9 @@ var sgp = window.sgp = {
 	checkNextTask: function(){
 		
 		currentTask++;
-		if( currentTask >= taskItems.length){ // || currentTask > 1 ){
+
+		// if( currentTask >= taskItems.length || currentTask > 1 ){ // !!!
+		if( currentTask >= taskItems.length){
 			sgp.parsingCompleted();
 			return;
 		}
@@ -50,9 +52,15 @@ var sgp = window.sgp = {
 		var taskItem = taskItems[currentTask];
 		taskItem.click();
 		var taskName = taskItem.querySelectorAll('.link_entity_name')[0].innerText;
-		tasksData[taskName] = currentTaskData = {
+		var taskType = taskItem.querySelectorAll('.task_name_box')[0].innerText;
+		console.log('taskType:', taskType );
+		var taskId = taskName+'--'+taskType;
+		tasksData[taskId] = currentTaskData = {
+			episode: taskName.split('_')[0],
+			taskId: taskId,
 			shotgunTaskId: (taskItem.getAttribute('item_id') || '_').split('_')[1],
 			name: taskName,
+			type: taskType,
 			assets: {}
 		};
 		console.log('task:',currentTask, taskName, currentTaskData);
@@ -104,10 +112,26 @@ var sgp = window.sgp = {
 		}
 
 		var listGroups = document.querySelectorAll('[data-cy="entity-grid"] .group');
+		var emptyAssetList = document.querySelectorAll('.grid_empty_state');
 		// console.log('sgp.getAssets: listGroups', listGroups );
 
 		if( !listGroups || !listGroups.length ){
-			// console.log('sgp.getAssets: not assets found');
+			
+			if( emptyAssetList.length ){
+				console.log('sgp.getAssets: empty assets list');
+				
+				var isPageReady = document.querySelectorAll('.embedded');
+				if( !isPageReady.length ){
+					console.log('sgp.getAssets: wait for ready');
+					setTimeout( sgp.getAssets, 40 );
+					return;
+				}
+
+				setTimeout( sgp.checkNextTask, 400 );
+				return;
+			}
+
+			console.log('sgp.getAssets: not assets found');
 			setTimeout( sgp.getAssets, 40 );
 			return;
 		}
@@ -194,16 +218,16 @@ var sgp = window.sgp = {
 			var output = '';
 			Object.keys(tasksData).forEach(function(shotName, i){
 				var ad = tasksData[shotName];
+				output += ad.type+'\t';// task type
 				output += ad.name+'\t';// shot name
 				output += 'https://smf.shotgunstudio.com/my_tasks?task_id='+ad.shotgunTaskId+'\t';// Shotgun task url
-				output += 'X:\\210611\\'+ad.sequenceName+'\\'+ad.name+'\t';// shot local path
+				output += 'X:\\KRUTIKSY\\3_anim\\'+ad.episode+'\\'+ad.sequenceName+'\\'+ad.name+'\t';// shot local path
 				output += '\t'; // redmine task
 				output += (ad.end-ad.start+1)+'\t'; // duration
-				output += 'LO\t'; // task type
 				output += '\t'; // task state
 				output += '\t'; // assignee
 				output += '\t'; // fact time
-				output += ad.description+'\t'; // description
+				output += ad.description.replace(/(?:\r\n|\r|\n)/g, '')+'\t'; // description
 				output+='\n';
 			});
 			console.log( 'Tasks:\n'+output);
@@ -213,3 +237,6 @@ var sgp = window.sgp = {
 
 }
 })();
+
+
+// sgp.generateTableTasks();
