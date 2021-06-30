@@ -3,6 +3,10 @@ window.sgp.generateTableTasks();
 // <<< Source <<<
 
 
-// >>> Bookmarklet >>> 
+// >>> Bookmarklet: generateTableTasks >>> 
 javascript:window.sgp.generateTableTasks();
+// <<< Bookmarklet <<< 
+
+// >>> Bookmarklet: generateTableTasks PARSED >>> 
+javascript:window.sgp.generateTableTasks(true);
 // <<< Bookmarklet <<< 
